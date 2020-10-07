@@ -31,50 +31,59 @@ class _HomePageState extends State<HomePage> {
 
   List<Product> products = [
     Product(
-        image: "assets/product1.jpg",
-        description: "This is dummy data for Fiska eCommerce application",
-        price: "900",
-        productName: "iPad mini"),
+      image: "assets/product1.jpg",
+      description: "This is dummy data for Fiska eCommerce application",
+      price: "900",
+      productName: "iPad mini",
+    ),
     Product(
-        image: "assets/product2.jpg",
-        description: "This is dummy data for Fiska eCommerce application.",
-        price: "700",
-        productName: "iPad Pro"),
+      image: "assets/product2.jpg",
+      description: "This is dummy data for Fiska eCommerce application.",
+      price: "700",
+      productName: "iPad Pro",
+    ),
     Product(
-        image: "assets/product3.jpg",
-        description: "This is dummy data for Fiska eCommerce application",
-        price: "800",
-        productName: "iPhone Pro Max"),
+      image: "assets/product3.jpg",
+      description: "This is dummy data for Fiska eCommerce application",
+      price: "800",
+      productName: "iPhone Pro Max",
+    ),
     Product(
-        image: "assets/product4.jpg",
-        description: "This is dummy data for Fiska eCommerce application.",
-        price: "90",
-        productName: "Apple Watch Series 3"),
+      image: "assets/product4.jpg",
+      description: "This is dummy data for Fiska eCommerce application.",
+      price: "90",
+      productName: "Apple Watch Series 3",
+    ),
     Product(
-        image: "assets/product5.jpg",
-        description: "This is dummy data for Fiska eCommerce application.",
-        price: "500",
-        productName: "Apple Watch Series 4"),
+      image: "assets/product5.jpg",
+      description: "This is dummy data for Fiska eCommerce application.",
+      price: "500",
+      productName: "Apple Watch Series 4",
+    ),
     Product(
-        image: "assets/product6.jpg",
-        description: "This is dummy data for Fiska eCommerce application.",
-        price: "100",
-        productName: "Macbook Pro 16 inch"),
+      image: "assets/product6.jpg",
+      description: "This is dummy data for Fiska eCommerce application.",
+      price: "100",
+      productName: "Macbook Pro 16 inch",
+    ),
     Product(
-        image: "assets/product7.jpg",
-        description: "This is dummy data for Fiska eCommerce application.",
-        price: "200",
-        productName: "Macbook Pro"),
+      image: "assets/product7.jpg",
+      description: "This is dummy data for Fiska eCommerce application.",
+      price: "200",
+      productName: "Macbook Pro",
+    ),
     Product(
-        image: "assets/product8.jpg",
-        description: "This is dummy data for Fiska eCommerce application",
-        price: "1000",
-        productName: "iMac 4k Retina"),
+      image: "assets/product8.jpg",
+      description: "This is dummy data for Fiska eCommerce application",
+      price: "1000",
+      productName: "iMac 4k Retina",
+    ),
     Product(
-        image: "assets/product9.jpg",
-        description: "This is dummy data for Fiska eCommerce application",
-        price: "150",
-        productName: "T-Shirts"),
+      image: "assets/product9.jpg",
+      description: "This is dummy data for Fiska eCommerce application",
+      price: "150",
+      productName: "T-Shirts",
+    ),
     Product(
         image: "assets/product10.jpg",
         description: "This is dummy data for Fiska eCommerce application",
@@ -120,7 +129,9 @@ class _HomePageState extends State<HomePage> {
           iconTheme: IconThemeData(color: Colors.deepOrange),
           actions: <Widget>[
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                showSearch(context: context, delegate: ProductSearchDelegate());
+              },
               icon: Icon(EvaIcons.search),
             ),
             IconButton(
@@ -235,6 +246,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           padding: EdgeInsets.all(10),
                           backgroundColor: Color(0xFFffe291),
+                          onPressed: () {},
                         ),
                         CategoryItem(
                           icon: EvaIcons.headphonesOutline,
@@ -244,6 +256,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           padding: EdgeInsets.all(10),
                           backgroundColor: Color(0xFF91bfff),
+                          onPressed: () {},
                         ),
                         CategoryItem(
                           icon: EvaIcons.hardDriveOutline,
@@ -253,6 +266,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           padding: EdgeInsets.all(10),
                           backgroundColor: Color(0xFFff91c1),
+                          onPressed: () {},
                         ),
                         CategoryItem(
                           icon: EvaIcons.printerOutline,
@@ -262,6 +276,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           padding: EdgeInsets.all(10),
                           backgroundColor: Color(0xFF5340de),
+                          onPressed: () {},
                         ),
                         CategoryItem(
                           icon: EvaIcons.videoOutline,
@@ -271,6 +286,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           padding: EdgeInsets.all(10),
                           backgroundColor: Color(0xFF47e6a9),
+                          onPressed: () {},
                         ),
                         CategoryItem(
                           icon: EvaIcons.umbrellaOutline,
@@ -280,6 +296,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           padding: EdgeInsets.all(10),
                           backgroundColor: Color(0xFFff788e),
+                          onPressed: () {},
                         ),
                         CategoryItem(
                           icon: EvaIcons.tvOutline,
@@ -289,6 +306,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           padding: EdgeInsets.all(10),
                           backgroundColor: Color(0xFFff9378),
+                          onPressed: () {},
                         ),
                       ],
                     ),
@@ -355,6 +373,40 @@ class _HomePageState extends State<HomePage> {
                           Container(
                             child: Column(
                               children: <Widget>[
+                                /**Positioned(
+                                  top: 6.0,
+                                  right: 6.0,
+                                  child: Card(
+                                    color: Colors.red,
+                                    elevation: 2.0,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(4.0)),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(9.0),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Icon(
+                                            Icons.star,
+                                            color: Product.ratingBG,
+                                            size: 20,
+                                          ),
+                                          SizedBox(
+                                            width: 5.0,
+                                          ),
+                                          Text(
+                                            "${product.rating} ",
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                */
                                 Expanded(
                                   child: Hero(
                                     tag: product.image,
@@ -403,7 +455,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           CategoryPage(),
-          SearchPage(),
           CartPage(),
           ProfilePage(),
         ].elementAt(_page),
@@ -418,11 +469,6 @@ class _HomePageState extends State<HomePage> {
               ),
               Icon(
                 Icons.list,
-                size: 24,
-                color: Colors.white,
-              ),
-              Icon(
-                Icons.search,
                 size: 24,
                 color: Colors.white,
               ),

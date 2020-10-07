@@ -6,9 +6,10 @@ class Product {
   final String price;
   final String description;
 
-  Product(
-      {@required this.description,
-      @required this.image,
-      @required this.price,
-      @required this.productName});
+  Product({
+    @required this.description,
+    @required this.image,
+    @required this.price,
+    @required this.productName,
+  });
 }

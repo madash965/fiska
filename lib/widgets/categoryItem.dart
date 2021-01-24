@@ -5,6 +5,7 @@ class CategoryItem extends StatelessWidget {
   final Color iconColor;
   final double size;
   final IconData icon;
+  final Function onPressed;
 
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry margin;
@@ -13,6 +14,7 @@ class CategoryItem extends StatelessWidget {
       {@required this.backgroundColor,
       @required this.size,
       @required this.icon,
+      @required this.onPressed,
       @required this.margin,
       @required this.padding,
       this.iconColor = Colors.white});
@@ -28,9 +30,11 @@ class CategoryItem extends StatelessWidget {
       ),
       padding: padding,
       margin: margin,
-      child: Icon(
-        icon,
+      child: IconButton(
+        iconSize: 30.0,
         color: iconColor,
+        onPressed: onPressed,
+        icon: Icon(icon),
       ),
     );
   }

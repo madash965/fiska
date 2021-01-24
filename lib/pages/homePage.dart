@@ -1,13 +1,16 @@
+import 'package:badges/badges.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:fiska/models/product.dart';
-import 'package:fiska/pages/profilePage.dart';
-import 'package:fiska/widgets/categoryItem.dart';
-import 'package:fiska/pages/productPage.dart';
-import 'package:fiska/pages/categoryPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'package:fiska/models/product.dart';
+import 'package:fiska/pages/categoryPage.dart';
+import 'package:fiska/pages/productPage.dart';
+import 'package:fiska/pages/profilePage.dart';
+import 'package:fiska/widgets/categoryItem.dart';
+
 import 'SearchPage.dart';
 import 'cartPage.dart';
 
@@ -31,50 +34,59 @@ class _HomePageState extends State<HomePage> {
 
   List<Product> products = [
     Product(
-        image: "assets/product1.jpg",
-        description: "This is dummy data for Fiska eCommerce application",
-        price: "900",
-        productName: "iPad mini"),
+      image: "assets/product1.jpg",
+      description: "This is dummy data for Fiska eCommerce application",
+      price: "900",
+      productName: "iPad mini",
+    ),
     Product(
-        image: "assets/product2.jpg",
-        description: "This is dummy data for Fiska eCommerce application.",
-        price: "700",
-        productName: "iPad Pro"),
+      image: "assets/product2.jpg",
+      description: "This is dummy data for Fiska eCommerce application.",
+      price: "700",
+      productName: "iPad Pro",
+    ),
     Product(
-        image: "assets/product3.jpg",
-        description: "This is dummy data for Fiska eCommerce application",
-        price: "800",
-        productName: "iPhone Pro Max"),
+      image: "assets/product3.jpg",
+      description: "This is dummy data for Fiska eCommerce application",
+      price: "800",
+      productName: "iPhone Pro Max",
+    ),
     Product(
-        image: "assets/product4.jpg",
-        description: "This is dummy data for Fiska eCommerce application.",
-        price: "90",
-        productName: "Apple Watch Series 3"),
+      image: "assets/product4.jpg",
+      description: "This is dummy data for Fiska eCommerce application.",
+      price: "90",
+      productName: "Apple Watch Series 3",
+    ),
     Product(
-        image: "assets/product5.jpg",
-        description: "This is dummy data for Fiska eCommerce application.",
-        price: "500",
-        productName: "Apple Watch Series 4"),
+      image: "assets/product5.jpg",
+      description: "This is dummy data for Fiska eCommerce application.",
+      price: "500",
+      productName: "Apple Watch Series 4",
+    ),
     Product(
-        image: "assets/product6.jpg",
-        description: "This is dummy data for Fiska eCommerce application.",
-        price: "100",
-        productName: "Macbook Pro 16 inch"),
+      image: "assets/product6.jpg",
+      description: "This is dummy data for Fiska eCommerce application.",
+      price: "100",
+      productName: "Macbook Pro 16 inch",
+    ),
     Product(
-        image: "assets/product7.jpg",
-        description: "This is dummy data for Fiska eCommerce application.",
-        price: "200",
-        productName: "Macbook Pro"),
+      image: "assets/product7.jpg",
+      description: "This is dummy data for Fiska eCommerce application.",
+      price: "200",
+      productName: "Macbook Pro",
+    ),
     Product(
-        image: "assets/product8.jpg",
-        description: "This is dummy data for Fiska eCommerce application",
-        price: "1000",
-        productName: "iMac 4k Retina"),
+      image: "assets/product8.jpg",
+      description: "This is dummy data for Fiska eCommerce application",
+      price: "1000",
+      productName: "iMac 4k Retina",
+    ),
     Product(
-        image: "assets/product9.jpg",
-        description: "This is dummy data for Fiska eCommerce application",
-        price: "150",
-        productName: "T-Shirts"),
+      image: "assets/product9.jpg",
+      description: "This is dummy data for Fiska eCommerce application",
+      price: "150",
+      productName: "T-Shirts",
+    ),
     Product(
         image: "assets/product10.jpg",
         description: "This is dummy data for Fiska eCommerce application",
@@ -106,9 +118,9 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            "Fiska",
+            "FISKA",
             style: TextStyle(
-                color: Colors.deepOrange,
+                color: Colors.orange[800],
                 fontSize: 26.0,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 5.0),
@@ -116,17 +128,36 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Colors.white,
           brightness: Brightness.light,
           elevation: 0,
-          actionsIconTheme: IconThemeData(color: Colors.deepOrange),
-          iconTheme: IconThemeData(color: Colors.deepOrange),
+          actionsIconTheme: IconThemeData(color: Colors.orange),
+          iconTheme: IconThemeData(color: Colors.orange),
           actions: <Widget>[
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                showSearch(context: context, delegate: ProductSearchDelegate());
+              },
               icon: Icon(EvaIcons.search),
             ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(EvaIcons.shoppingBagOutline),
-            ),
+            Badge(
+              padding: EdgeInsets.all(2),
+              shape: BadgeShape.circle,
+              borderRadius: 3,
+              badgeContent: Text(
+                '10',
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+              position: BadgePosition.topEnd(top: 5, end: 4),
+              animationDuration: Duration(milliseconds: 300),
+              animationType: BadgeAnimationType.slide,
+              child: IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.shopping_cart,
+                  size: 22,
+                  color: Colors.orange,
+                ),
+              ),
+            )
           ],
         ),
         drawerEdgeDragWidth: 0,
@@ -164,21 +195,25 @@ class _HomePageState extends State<HomePage> {
               ListTile(
                 title: Text("Account"),
                 leading: Icon(EvaIcons.personOutline),
+                onTap: () {},
               ),
               SizedBox(height: 10),
               ListTile(
                 title: Text("Categories"),
                 leading: Icon(Icons.list),
+                onTap: () {},
               ),
               SizedBox(height: 10),
               ListTile(
                 title: Text("Sevices"),
                 leading: Icon(Icons.live_help),
+                onTap: () {},
               ),
               SizedBox(height: 10),
               ListTile(
                 title: Text("Help"),
                 leading: Icon(EvaIcons.bulbOutline),
+                onTap: () {},
               ),
               SizedBox(height: 10),
               ListTile(
@@ -235,6 +270,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           padding: EdgeInsets.all(10),
                           backgroundColor: Color(0xFFffe291),
+                          onPressed: () {},
                         ),
                         CategoryItem(
                           icon: EvaIcons.headphonesOutline,
@@ -244,6 +280,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           padding: EdgeInsets.all(10),
                           backgroundColor: Color(0xFF91bfff),
+                          onPressed: () {},
                         ),
                         CategoryItem(
                           icon: EvaIcons.hardDriveOutline,
@@ -253,6 +290,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           padding: EdgeInsets.all(10),
                           backgroundColor: Color(0xFFff91c1),
+                          onPressed: () {},
                         ),
                         CategoryItem(
                           icon: EvaIcons.printerOutline,
@@ -262,6 +300,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           padding: EdgeInsets.all(10),
                           backgroundColor: Color(0xFF5340de),
+                          onPressed: () {},
                         ),
                         CategoryItem(
                           icon: EvaIcons.videoOutline,
@@ -271,6 +310,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           padding: EdgeInsets.all(10),
                           backgroundColor: Color(0xFF47e6a9),
+                          onPressed: () {},
                         ),
                         CategoryItem(
                           icon: EvaIcons.umbrellaOutline,
@@ -280,6 +320,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           padding: EdgeInsets.all(10),
                           backgroundColor: Color(0xFFff788e),
+                          onPressed: () {},
                         ),
                         CategoryItem(
                           icon: EvaIcons.tvOutline,
@@ -289,6 +330,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           padding: EdgeInsets.all(10),
                           backgroundColor: Color(0xFFff9378),
+                          onPressed: () {},
                         ),
                       ],
                     ),
@@ -301,7 +343,7 @@ class _HomePageState extends State<HomePage> {
 
                   CarouselSlider(
                     options: CarouselOptions(
-                      aspectRatio: 16 / 9,
+                      aspectRatio: 16 / 7,
                       autoPlay: true,
                     ),
                     items: bannerAdSlider.map((i) {
@@ -311,7 +353,7 @@ class _HomePageState extends State<HomePage> {
                             width: MediaQuery.of(context).size.width,
                             margin: EdgeInsets.symmetric(horizontal: 2.0),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(30),
                               child: Image(
                                 image: AssetImage(i),
                                 fit: BoxFit.cover,
@@ -338,72 +380,115 @@ class _HomePageState extends State<HomePage> {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
-
+                  Divider(
+                    height: 3.0,
+                  ),
                   SizedBox(
-                    height: 20,
+                    height: 8,
                   ),
 
                   GridView.count(
-                    padding: EdgeInsets.all(4.0),
+                    padding: EdgeInsets.all(5.0),
                     physics: ClampingScrollPhysics(),
                     crossAxisCount: 2,
                     shrinkWrap: true,
-                    childAspectRatio: 1 / 1.30,
+                    childAspectRatio: 1 / 1.0,
                     children: products.map((product) {
-                      return Stack(
-                        children: <Widget>[
-                          Container(
-                            child: Column(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Hero(
-                                    tag: product.image,
-                                    child: AspectRatio(
-                                      aspectRatio: 1 / 1,
-                                      child: Image(
-                                        image: AssetImage(product.image),
+                      return Card(
+                        elevation: 1.5,
+                        child: Stack(
+                          children: <Widget>[
+                            Container(
+                              child: Column(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Hero(
+                                      tag: product.image,
+                                      child: AspectRatio(
+                                        aspectRatio: 1 / 1,
+                                        child: Image(
+                                          image: AssetImage(product.image),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                Text(
-                                  product.productName,
-                                ),
-                                Text(
-                                  "${product.price}\$",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.amber,
+                                  Divider(
+                                    height: 3.0,
+                                  ),
+                                  Text(
+                                    product.productName,
+                                  ),
+                                  Text(
+                                    "${product.price}\$",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.amber[900],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ProductPage(
+                                          product: product,
+                                        ),
+                                      ));
+                                },
+                              ),
+                            ),
+                            Positioned(
+                              top: -2.0,
+                              right: -3.0,
+                              child: Card(
+                                color: Colors.amber[200],
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4.0)),
+                                child: Padding(
+                                  padding: EdgeInsets.all(1.0),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Text(
+                                        '-70%',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    ],
                                   ),
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                          Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ProductPage(
-                                        product: product,
-                                      ),
-                                    ));
-                              },
-                            ),
-                          )
-                        ],
+                          ],
+                        ),
                       );
                     }).toList(),
+                  ),
+
+                  SizedBox(
+                    height: 8,
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Top Products",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),
             ),
           ),
           CategoryPage(),
-          SearchPage(),
           CartPage(),
           ProfilePage(),
         ].elementAt(_page),
@@ -421,15 +506,23 @@ class _HomePageState extends State<HomePage> {
                 size: 24,
                 color: Colors.white,
               ),
-              Icon(
-                Icons.search,
-                size: 24,
-                color: Colors.white,
-              ),
-              Icon(
-                Icons.shopping_cart,
-                size: 24,
-                color: Colors.white,
+              Badge(
+                padding: EdgeInsets.all(3),
+                shape: BadgeShape.circle,
+                borderRadius: 3,
+                badgeContent: Text(
+                  '10',
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+                position: BadgePosition.topEnd(top: -10, end: -15),
+                animationDuration: Duration(milliseconds: 300),
+                animationType: BadgeAnimationType.slide,
+                child: Icon(
+                  Icons.shopping_cart,
+                  size: 24,
+                  color: Colors.white,
+                ),
               ),
               Icon(
                 Icons.person,

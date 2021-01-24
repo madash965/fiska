@@ -4,14 +4,17 @@ import 'package:fiska/pages/cartPage.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:popup_box/popup_box.dart';
 
 class CartModel extends GetxController {
   final cartList = [].obs;
   final checkoutItems = [].obs;
+  final cartMap = {}.obs;
 
   // handles the view of the cart items
   get items {
     CartModel cartModel = Get.put(CartModel());
+    TextEditingController _textController = TextEditingController();
     return cartList.isEmpty
         ? Container(
             color: Colors.white,
@@ -26,15 +29,17 @@ class CartModel extends GetxController {
               ),
             ),
           )
-        : ListView.separated(
-            itemBuilder: (_, index) => Container(
-              margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                color: Colors.black12,
-              ),
-              padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-              child: Expanded(
+        : Container(
+            //padding: EdgeInsets.symmetric(vertical: 10),
+            color: Colors.black12,
+            child: ListView.separated(
+              itemBuilder: (_, index) => Container(
+                margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: Colors.white,
+                ),
+                padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
                 child: Column(
                   children: [
                     Row(
@@ -68,7 +73,7 @@ class CartModel extends GetxController {
                                 width: 10.0,
                               ),
                               Container(
-                                width: MediaQuery.of(_).size.width / 1.9,
+                                width: MediaQuery.of(_).size.width / 1.95,
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
@@ -77,9 +82,11 @@ class CartModel extends GetxController {
                                     children: [
                                       Text(
                                         '${cartList[index].description}',
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
                                         style: TextStyle(
                                           fontSize: 18.0,
-                                          fontWeight: FontWeight.w700,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                       SizedBox(
@@ -87,9 +94,10 @@ class CartModel extends GetxController {
                                       ),
                                       Text(
                                         '\$${cartList[index].price}',
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                           fontSize: 16.0,
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w500,
                                         ),
                                       ),
                                       SizedBox(
@@ -105,18 +113,18 @@ class CartModel extends GetxController {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(15.0, 5, 15, 5),
+                      padding: const EdgeInsets.fromLTRB(10.0, 5, 10, 5),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           IconButton(
                             icon: Icon(EvaIcons.heartOutline),
                             color: Colors.black,
                             onPressed: () {},
                           ),
-                          SizedBox(
-                            width: 10,
-                          ),
+                          // SizedBox(
+                          //   width: 10,
+                          // ),
                           Builder(
                             builder: (_) => RaisedButton.icon(
                               icon: Icon(
@@ -130,29 +138,110 @@ class CartModel extends GetxController {
                               },
                             ),
                           ),
+                          // SizedBox(
+                          //   width: 15,
+                          // ),
+                          Row(
+                            children: [
+                              IconButton(
+                                icon: Icon(
+                                  Icons.remove,
+                                  color: Colors.black,
+                                ),
+                                onPressed: () {
+                                  if (cartMap[cartList[index]] > 0) {
+                                    cartMap.update(
+                                        cartList[index], (value) => value - 1);
+                                  }
+                                },
+                              ),
+                              Obx(
+                                () => InkWell(
+                                  onTap: () async {
+                                    num number = 0;
+                                    await PopupBox.showPopupBox(
+                                      context: _,
+                                      button: FlatButton(
+                                        color: Colors.transparent,
+                                        child: Text(
+                                          'Done',
+                                          style: TextStyle(
+                                            color: Colors.orange.shade300,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          if (number > 0) {
+                                            cartMap[cartList[index]] = number;
+                                          } else {
+                                            return cartMap[cartList[index]];
+                                          }
+                                          Navigator.of(_, rootNavigator: true)
+                                              .pop();
+                                        },
+                                      ),
+                                      willDisplayWidget: TextField(
+                                        autofocus: true,
+                                        controller: _textController,
+                                        keyboardType: TextInputType.number,
+                                        decoration: InputDecoration(
+                                          hintText: 'Add a Number',
+                                          border: InputBorder.none,
+                                          filled: true,
+                                          fillColor: Colors.black12,
+                                        ),
+                                        onChanged: (val) {
+                                          number = num.parse(val);
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(3),
+                                    color: Colors.black12,
+                                    child: Text(
+                                      '${cartMap[cartList[index]]}',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.add, color: Colors.black),
+                                onPressed: () => cartMap.update(
+                                    cartList[index], (value) => value + 1),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
                   ],
                 ),
               ),
+              separatorBuilder: (_, index) => Container(
+                height: MediaQuery.of(_).size.height / 50,
+                color: Colors.transparent,
+              ),
+              itemCount: cartList.length,
             ),
-            separatorBuilder: (_, index) => Container(
-              height: MediaQuery.of(_).size.height / 50,
-              color: Colors.transparent,
-            ),
-            itemCount: cartList.length,
           );
   }
 
   //add items to cartList
   addItems(Product item) {
     cartList.add(item);
+    cartMap.add(item, 1);
   }
 
   //remove items from cartList
   removeItems(Product item) {
     cartList.remove(item);
+    cartMap.remove(item);
   }
 
   //used to handle addition of an item to the cart
@@ -181,7 +270,7 @@ class CartModel extends GetxController {
     double price;
     var sum = 0.0;
     for (var item in checkoutItems) {
-      price = double.parse("${item.price}");
+      price = double.parse("${item.price}") * cartMap[item];
       sum += price;
       //print("Sum: $sum");
     }

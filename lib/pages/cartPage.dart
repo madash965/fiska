@@ -40,20 +40,22 @@ class _CartPageState extends State<CartPage> {
             ? SizedBox()
             : Container(
                 padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                margin: EdgeInsets.symmetric(horizontal: 5),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.horizontal(
-                    left: Radius.circular(10),
-                    right: Radius.circular(10),
-                  ),
-                ),
-                height: MediaQuery.of(context).size.height / 8,
-                child: Column(
+                color: Colors.white,
+                //margin: EdgeInsets.symmetric(horizontal: 5),
+                // decoration: BoxDecoration(
+                //   color: Colors.black12,
+                //   borderRadius: BorderRadius.horizontal(
+                //     left: Radius.circular(10),
+                //     right: Radius.circular(10),
+                //   ),
+                // ),
+                height: MediaQuery.of(context).size.height / 13,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     SafeArea(
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           // GetX(
                           //   init: cartModel,
@@ -74,7 +76,7 @@ class _CartPageState extends State<CartPage> {
                           //   ),
                           // ),
                           Text(
-                            "Total:",
+                            "Total: ",
                             style: TextStyle(
                               letterSpacing: 2,
                               color: Colors.orange[700],
@@ -110,10 +112,17 @@ class _CartPageState extends State<CartPage> {
                         ),
                       ),
                       onPressed: () {
+                        if (cartModel.checkoutItems.length == 0) {
+                          return null;
+                        }
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CheckoutPage(),
+                            builder: (context) => CheckoutPage(
+                              price: num.parse(
+                                "${cartModel.sum()}",
+                              ),
+                            ),
                           ),
                         );
                       },

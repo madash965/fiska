@@ -1,3 +1,4 @@
+import 'package:fiska/pages/profile_related/authentication.dart';
 import 'package:fiska/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: SplashScreen(), //Authentication()
       theme: ThemeData(
         fontFamily: "poppins",
         scaffoldBackgroundColor: Colors.white,

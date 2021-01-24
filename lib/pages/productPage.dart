@@ -212,7 +212,9 @@ class ProductPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => CheckoutPage(),
+                      builder: (_) => CheckoutPage(
+                        price: num.parse(product.price),
+                      ),
                     ),
                   );
                 },

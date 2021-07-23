@@ -174,9 +174,19 @@ class ProductPage extends StatelessWidget {
                     allowHalfRating: true,
                     itemCount: 5,
                     itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                    itemBuilder: (context, _) => Icon(
-                      Icons.star,
-                      color: Colors.amber,
+                    ratingWidget: RatingWidget(
+                      empty: Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
+                      half: Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
+                      full: Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
                     ),
                     onRatingUpdate: (rating) {
                       print(rating);

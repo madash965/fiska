@@ -6,7 +6,7 @@ import 'package:http/http.dart';
 
 // class ApiService {
 //   static var client = http.Client();
-//   static String baseUrl = "http://10.0.2.2:8000/api/v1/";
+//   static String baseUrl = "http://fiskah.com/app-api/2.3/";
 //   Map<String, String> headers = {
 //     "Content-Type": "applicaton/json",
 //   };

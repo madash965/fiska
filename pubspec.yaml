@@ -24,16 +24,17 @@ dependencies:
   flutter:
     sdk: flutter
   animated_splash_screen: ^1.0.1+2
-  badges: ^1.1.3
-  carousel_slider: ^2.1.0
-  convex_bottom_bar: ^2.5.1+1
-  cupertino_icons: ^0.1.3
-  curved_navigation_bar: ^0.3.4
-  eva_icons_flutter: ^2.0.0
+  badges: ^2.0.1
+  carousel_slider: ^4.0.0
+  convex_bottom_bar: ^3.0.0
+  cupertino_icons: ^1.0.3
+  curved_navigation_bar: ^1.0.1
+  eva_icons_flutter: ^3.0.0
   flushbar: ^1.10.4
-  flutter_rating_bar: ^3.0.1+1
-  get: ^3.12.1
-  http: ^0.12.2
+  flutter_rating_bar: ^4.0.0
+  get: ^4.1.4
+  http: ^0.13.3
+  material_dialogs: ^1.1.0
   popup_box: ^0.1.0
   progress_stepper: ^0.1.0
   validated: ^1.0.3

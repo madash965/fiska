@@ -174,9 +174,19 @@ class ProductPage extends StatelessWidget {
                     allowHalfRating: true,
                     itemCount: 5,
                     itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                    itemBuilder: (context, _) => Icon(
-                      Icons.star,
-                      color: Colors.amber,
+                    ratingWidget: RatingWidget(
+                      empty: Icon(
+                        Icons.star,
+                        color: Colors.grey,
+                      ),
+                      half: Icon(
+                        Icons.star,
+                        color: Colors.grey,
+                      ),
+                      full: Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
                     ),
                     onRatingUpdate: (rating) {
                       print(rating);
@@ -191,9 +201,17 @@ class ProductPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Expanded(
-              child: OutlineButton.icon(
-                icon: Icon(Icons.shopping_cart),
-                label: Text("Cart"),
+              child: OutlinedButton.icon(
+                icon: Icon(
+                  Icons.shopping_cart,
+                  color: Colors.black,
+                ),
+                label: Text(
+                  "Cart",
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
                 onPressed: () {
                   _cartModel.inCart(product, context);
                 },
@@ -203,11 +221,20 @@ class ProductPage extends StatelessWidget {
               width: 10,
             ),
             Expanded(
-              child: RaisedButton.icon(
-                textColor: Colors.black,
-                color: Colors.amber,
-                icon: Icon(EvaIcons.creditCard),
-                label: Text("Buy Now"),
+              child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.amber,
+                ),
+                icon: Icon(
+                  EvaIcons.creditCard,
+                  color: Colors.black,
+                ),
+                label: Text(
+                  "Buy Now",
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -238,7 +265,10 @@ void showSimpleFlushbar(BuildContext context, String message) {
       ),
     ),
     duration: Duration(seconds: 3),
-    mainButton: RaisedButton(
+    mainButton: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: Colors.black12,
+      ),
       child: Text(
         'Go to Cart',
         style: TextStyle(
@@ -247,7 +277,6 @@ void showSimpleFlushbar(BuildContext context, String message) {
           fontWeight: FontWeight.w400,
         ),
       ),
-      color: Colors.black12,
       onPressed: () => Navigator.push(
         context,
         MaterialPageRoute(

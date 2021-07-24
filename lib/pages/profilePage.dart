@@ -1,3 +1,4 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fiska/models/user.dart';
 import 'package:fiska/widgets/sliverBoxWidget.dart';
 import 'package:flutter/material.dart';
@@ -7,20 +8,39 @@ class ProfilePage extends StatelessWidget {
   ProfilePage({Key key, this.user});
   @override
   Widget build(BuildContext context) {
-    List _text = [
-      "Orders",
-      "Reviews",
-      "Voucher/Coupon",
-      "Saved Items",
-      "Recently Viewed",
-      "Become A Seller"
-    ];
-    List _text2 = ["Details", "Address", "Change Password"];
+    Map _text = {
+      "Orders": Icons.bus_alert_outlined,
+      "Reviews": Icons.chat_outlined,
+      "Voucher/Coupon": Icons.money,
+      "Saved Items": EvaIcons.heart,
+      "Recently Viewed": Icons.skip_previous,
+      "Become A Seller": Icons.shop,
+    };
+    Map _text2 = {
+      "Details": Icons.details_outlined,
+      "Address": Icons.location_city,
+      "Change Password": Icons.password
+    };
     return Scaffold(
       // appBar: AppBar(
+      //   flexibleSpace: Container(
+      //     height: 200,
+      //   ),
       //   elevation: 0.0,
+      //   leading: Padding(
+      //     padding: EdgeInsets.all(8.0),
+      //     child: CircleAvatar(
+      //       radius: 35,
+      //       backgroundColor: Colors.orange[300],
+      //       child: Icon(
+      //         Icons.account_circle,
+      //         size: 60,
+      //         color: Colors.white,
+      //       ),
+      //     ),
+      //   ),
       //   title: Text(
-      //     'Profile',
+      //     'Welcome User',
       //     style: TextStyle(
       //       color: Colors.black,
       //       fontSize: 28,
@@ -29,147 +49,230 @@ class ProfilePage extends StatelessWidget {
       //   iconTheme: IconThemeData(color: Colors.black),
       //   backgroundColor: Colors.white,
       // ),
-      body: Container(
+      body: SafeArea(
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width / 37,
+            vertical: MediaQuery.of(context).size.width / 37,
+          ),
+          color: Colors.grey[100],
+          child: ListView(
+            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+            //mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width / 37,
+                  vertical: MediaQuery.of(context).size.width / 37,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Welcome\nUser',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    SizedBox(
+                      //color: Colors.transparent,
+                      width: 20,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: CircleAvatar(
+                        radius: 35,
+                        backgroundColor: Colors.orange[300],
+                        child: Icon(
+                          Icons.account_circle,
+                          size: 60,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Divider(
+                color: Colors.transparent,
+                height: 10,
+              ),
+              Container(
+                //height: 300,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                //padding: EdgeInsets.fromLTRB(9, 0, 9, 0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  //mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15.0, vertical: 8),
+                      child: Text(
+                        'Accounts',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 22.0,
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      thickness: 2,
+                      endIndent: 3,
+                      indent: 3,
+                      color: Colors.black12,
+                    ),
+                    ListView.builder(
+                      physics: ScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => buildListTile(
+                        _text.values.elementAt(index),
+                        _text.keys.elementAt(index),
+                      ),
+                      itemCount: _text.length,
+                    ),
+                  ],
+                ),
+              ),
+              Divider(
+                color: Colors.transparent,
+                height: 10,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                //padding: EdgeInsets.fromLTRB(9, 0, 9, 0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  //mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15.0, vertical: 8),
+                      child: Text(
+                        'Settings',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 22.0,
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      thickness: 2,
+                      endIndent: 3,
+                      indent: 3,
+                      color: Colors.black12,
+                    ),
+                    ListView.builder(
+                      physics: ScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => buildListTile(
+                        _text2.values.elementAt(index),
+                        _text2.keys.elementAt(index),
+                      ),
+                      itemCount: _text2.length,
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: Container(
         color: Colors.white,
-        child: ListView(
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            primary: Colors.red,
+          ),
+          onPressed: () {},
+          child: Text(
+            'Log Out',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  ListTile buildListTile(var icon, String text) {
+    return ListTile(
+      tileColor: Colors.black54,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      //visualDensity: VisualDensity(vertical: -2.0),
+      leading: Icon(
+        icon,
+        size: 20,
+        color: Colors.black,
+      ),
+      title: Text(
+        text,
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      trailing: Icon(Icons.arrow_right),
+      onTap: () {},
+    );
+  }
+
+  Container buildGridTile(var icon, String subtitle) {
+    return Container(
+      child: TextButton(
+        style: TextButton.styleFrom(
+          primary: Colors.orange[300],
+          shape: CircleBorder(),
+        ),
+        onPressed: () {},
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 9),
-              decoration: BoxDecoration(
-                color: Colors.black12,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
+            CircleAvatar(
+              child: Icon(
+                icon,
+                size: 27,
+                color: Colors.white,
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(9.0),
-                child: Center(
-                  child: Text(
-                    'Hello user',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25.0,
-                    ),
-                  ),
-                ),
-              ),
+              radius: 27,
+              backgroundColor: Colors.orange[300],
             ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 9, vertical: 5),
-              decoration: BoxDecoration(
-                color: Colors.orange[300],
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(11.0),
-                child: Text(
-                  'Account',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(9, 0, 9, 0),
-              height: MediaQuery.of(context).size.height / 2.15,
-              child: ListView.builder(
-                itemBuilder: (_, index) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 3.0),
-                  child: ListTile(
-                    tileColor: Colors.black12,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    //visualDensity: VisualDensity(vertical: -2.0),
-                    title: Text(
-                      '${_text[index]}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    trailing: Icon(Icons.arrow_right),
-                    onTap: () {},
-                  ),
-                ),
-                itemCount: _text.length,
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 9, vertical: 5),
-              decoration: BoxDecoration(
-                color: Colors.orange[300],
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(11.0, 11.0, 11, 11),
-                child: Text(
-                  'Settings',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height / 4.3,
-              decoration: BoxDecoration(
-                //color: Colors.black12,
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              padding: EdgeInsets.fromLTRB(9, 0, 9, 0),
-              child: ListView.builder(
-                itemBuilder: (_, index) => Padding(
-                  padding: const EdgeInsets.only(bottom: 5.0),
-                  child: ListTile(
-                    tileColor: Colors.black12,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(50),
-                      ),
-                    ),
-                    //visualDensity: VisualDensity(vertical: -2.0),
-                    title: Text(
-                      '${_text2[index]}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    trailing: Icon(Icons.arrow_right),
-                    onTap: () {},
-                  ),
-                ),
-                itemCount: _text2.length,
+            Divider(color: Colors.transparent, height: 5),
+            Text(
+              subtitle,
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 16.0,
+                color: Colors.black,
               ),
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          RaisedButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            color: Colors.red,
-            onPressed: () {},
-            child: Text(
-              'Log Out',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

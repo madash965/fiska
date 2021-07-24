@@ -1,9 +1,12 @@
+import 'package:material_dialogs/material_dialogs.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fiska/controllers/cartcontroller.dart';
 import 'package:fiska/models/product.dart';
 import 'package:fiska/pages/checkout_page.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:popup_box/popup_box.dart';
 
 class CartPage extends StatefulWidget {
   @override
@@ -16,27 +19,86 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     CartModel cartModel = Get.put<CartModel>(CartModel());
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        title: Text(
-          'Cart',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 28,
-          ),
+      // appBar: AppBar(
+      //   elevation: 0.0,
+      //   title: Text(
+      //     'Cart',
+      //     style: TextStyle(
+      //       color: Colors.black,
+      //       fontSize: 28,
+      //     ),
+      //   ),
+      //   backgroundColor: Colors.white,
+      //   iconTheme: IconThemeData(color: Colors.black),
+      //   actionsIconTheme: IconThemeData(color: Colors.black),
+      // ),
+      body: SafeArea(
+        child: Obx(
+          () => cartModel.cartMap.isEmpty
+              ? Container(
+                  color: Colors.transparent,
+                  child: Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          EvaIcons.shoppingCart,
+                          size: 40,
+                          color: Colors.black,
+                        ),
+                        Text(
+                          'Cart Is Empty',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              : Container(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width / 37,
+                      vertical: MediaQuery.of(context).size.width / 37),
+                  color: Colors.black12,
+                  child: ListView.separated(
+                    itemBuilder: (context, index) => Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.height / 70,
+                        vertical: MediaQuery.of(context).size.height / 70,
+                      ),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10.0)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: orderDetails(index, context),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: orderOptions(index, context),
+                          ),
+                        ],
+                      ),
+                    ),
+                    separatorBuilder: (context, index) => Container(
+                      height: MediaQuery.of(context).size.height / 50,
+                      color: Colors.transparent,
+                    ),
+                    itemCount: cartModel.cartMap.length,
+                  ),
+                ),
         ),
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black),
-        actionsIconTheme: IconThemeData(color: Colors.black),
-      ),
-      body: GetX(
-        init: CartModel(),
-        builder: (_) {
-          return _.items;
-        },
       ),
       bottomNavigationBar: Obx(
-        () => cartModel.cartList.isEmpty
+        () => cartModel.cartMap.isEmpty
             ? SizedBox()
             : Container(
                 padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
@@ -96,14 +158,16 @@ class _CartPageState extends State<CartPage> {
                         ],
                       ),
                     ),
-                    RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.horizontal(
-                          left: Radius.circular(10),
-                          right: Radius.circular(10),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.orange.shade300,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.horizontal(
+                            left: Radius.circular(10),
+                            right: Radius.circular(10),
+                          ),
                         ),
                       ),
-                      color: Colors.orange.shade300,
                       child: Text(
                         'CheckOut(${cartModel.checkoutItems.length})',
                         style: TextStyle(
@@ -151,4 +215,196 @@ void showSimpleFlushbar(BuildContext context, String message) {
     borderRadius: 10.0,
     maxWidth: 20.0,
   )..show(context);
+}
+
+List<Widget> orderDetails(int index, BuildContext context) {
+  CartModel cartModel = Get.put<CartModel>(CartModel());
+  var product = cartModel.cartMap.keys.elementAt(index);
+  return [
+    Obx(
+      () => Checkbox(
+        activeColor: Colors.orange[300],
+        checkColor: Colors.black,
+        value: cartModel.checkoutItems.contains(product),
+        onChanged: (value) {
+          if (value) {
+            cartModel.checkoutItems.add(product);
+          } else {
+            cartModel.checkoutItems.remove(product);
+          }
+        },
+      ),
+    ),
+    Container(
+      width: MediaQuery.of(context).size.width / 3.2,
+      child: Image.asset(
+        "${product.image}",
+        fit: BoxFit.fill,
+      ),
+    ),
+    Container(
+      width: MediaQuery.of(context).size.width / 2.3,
+      padding: EdgeInsets.symmetric(horizontal: 3, vertical: 3),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            '${product.description}',
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+            style: TextStyle(
+              fontSize: 18.0,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.width / 20,
+          ),
+          Text(
+            '\$${product.price}',
+            overflow: TextOverflow.ellipsis,
+            //maxLines: 2,
+            style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.width / 20,
+          ),
+        ],
+      ),
+    )
+  ];
+}
+
+List<Widget> orderOptions(int index, BuildContext context) {
+  TextEditingController _textController = TextEditingController();
+  CartModel cartModel = Get.put<CartModel>(CartModel());
+  var product = cartModel.cartMap.keys.elementAt(index);
+  return [
+    IconButton(
+      icon: Icon(EvaIcons.heartOutline),
+      color: Colors.black,
+      onPressed: () {},
+    ),
+    SizedBox(
+      width: MediaQuery.of(context).size.width / 20,
+    ),
+    ElevatedButton.icon(
+      style: ElevatedButton.styleFrom(
+        primary: Colors.orange.shade300,
+      ),
+      icon: Icon(
+        EvaIcons.trash,
+        color: Colors.red,
+      ),
+      label: Text(
+        'Remove From Cart',
+        style: TextStyle(
+          color: Colors.black,
+        ),
+      ),
+      onPressed: () {
+        cartModel.checkoutHandler(product, context);
+      },
+    ),
+    SizedBox(
+      width: MediaQuery.of(context).size.width / 20,
+    ),
+    Container(
+      //color: Colors.black12,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          IconButton(
+            color: Colors.white,
+            icon: Icon(
+              Icons.remove,
+              size: 20,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              if (cartModel.cartMap[product] > 1) {
+                cartModel.cartMap.update(product, (quantity) => quantity - 1);
+              }
+            },
+          ),
+          Obx(
+            () => InkWell(
+              onTap: () async {
+                num number = 0;
+                await PopupBox.showPopupBox(
+                  context: context,
+                  button: TextButton(
+                    style: TextButton.styleFrom(
+                      primary: Colors.transparent,
+                    ),
+                    child: Text(
+                      'Done',
+                      style: TextStyle(
+                        color: Colors.orange.shade300,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onPressed: () {
+                      if (number > 0) {
+                        cartModel.cartMap[product] = number;
+                      } else {
+                        return cartModel.cartMap[product];
+                      }
+                      Get.back();
+                    },
+                  ),
+                  willDisplayWidget: TextField(
+                    autofocus: true,
+                    controller: _textController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      hintText: 'Add a Number',
+                      border: InputBorder.none,
+                      filled: true,
+                      fillColor: Colors.black12,
+                    ),
+                    onChanged: (val) {
+                      number = num.parse(val);
+                    },
+                  ),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.orange[300],
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                padding: EdgeInsets.all(3),
+                child: Text(
+                  '${cartModel.cartMap[product]}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          IconButton(
+            highlightColor: Colors.orange[300],
+            splashColor: Colors.orange[300],
+            color: Colors.white,
+            icon: Icon(
+              Icons.add,
+              size: 20,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              cartModel.cartMap.update(product, (quantity) => quantity + 1);
+            },
+          ),
+        ],
+      ),
+    ),
+  ];
 }

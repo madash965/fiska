@@ -304,7 +304,10 @@ void showSimpleFlushbar(BuildContext context, String message) {
       ),
     ),
     duration: Duration(seconds: 3),
-    mainButton: RaisedButton(
+    mainButton: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: Colors.black12,
+      ),
       child: Text(
         'Go to Cart',
         style: TextStyle(
@@ -313,7 +316,6 @@ void showSimpleFlushbar(BuildContext context, String message) {
           fontWeight: FontWeight.w400,
         ),
       ),
-      color: Colors.black12,
       onPressed: () => Navigator.push(
         context,
         MaterialPageRoute(

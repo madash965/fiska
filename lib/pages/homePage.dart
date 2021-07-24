@@ -520,7 +520,7 @@ class _HomePageState extends State<HomePage> {
           Obx(
             () => cartModel.cartMap.length.isEqual(0)
                 ? Icon(
-                    EvaIcons.shoppingCart,
+                    Icons.shopping_cart,
                     size: 24,
                     color: Colors.white,
                   )
@@ -537,7 +537,7 @@ class _HomePageState extends State<HomePage> {
                     animationDuration: Duration(milliseconds: 300),
                     animationType: BadgeAnimationType.slide,
                     child: Icon(
-                      EvaIcons.shoppingCart,
+                      Icons.shopping_cart,
                       size: 24,
                       color: Colors.white,
                     ),

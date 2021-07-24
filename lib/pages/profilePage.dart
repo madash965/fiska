@@ -61,35 +61,45 @@ class ProfilePage extends StatelessWidget {
 
             //mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: CircleAvatar(
-                      radius: 35,
-                      backgroundColor: Colors.orange[300],
-                      child: Icon(
-                        Icons.account_circle,
-                        size: 60,
-                        color: Colors.white,
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width / 37,
+                  vertical: MediaQuery.of(context).size.width / 37,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Welcome\nUser',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    //color: Colors.transparent,
-                    width: 20,
-                  ),
-                  Text(
-                    'Welcome\nUser',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
+                    SizedBox(
+                      //color: Colors.transparent,
+                      width: 20,
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: CircleAvatar(
+                        radius: 35,
+                        backgroundColor: Colors.orange[300],
+                        child: Icon(
+                          Icons.account_circle,
+                          size: 60,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Divider(
                 color: Colors.transparent,

@@ -34,6 +34,7 @@ dependencies:
   flutter_rating_bar: ^4.0.0
   get: ^4.1.4
   http: ^0.13.3
+  material_dialogs: ^1.1.0
   popup_box: ^0.1.0
   progress_stepper: ^0.1.0
   validated: ^1.0.3

@@ -1,3 +1,4 @@
+import 'package:material_dialogs/material_dialogs.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fiska/controllers/cartcontroller.dart';
 import 'package:fiska/models/product.dart';
@@ -5,6 +6,7 @@ import 'package:fiska/pages/checkout_page.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:popup_box/popup_box.dart';
 
 class CartPage extends StatefulWidget {
   @override
@@ -245,7 +247,7 @@ List<Widget> orderDetails(int index, BuildContext context) {
       padding: EdgeInsets.symmetric(horizontal: 3, vertical: 3),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             '${product.description}',
@@ -256,6 +258,9 @@ List<Widget> orderDetails(int index, BuildContext context) {
               fontWeight: FontWeight.w600,
             ),
           ),
+          SizedBox(
+            height: MediaQuery.of(context).size.width / 20,
+          ),
           Text(
             '\$${product.price}',
             overflow: TextOverflow.ellipsis,
@@ -265,6 +270,9 @@ List<Widget> orderDetails(int index, BuildContext context) {
               fontWeight: FontWeight.w500,
             ),
           ),
+          SizedBox(
+            height: MediaQuery.of(context).size.width / 20,
+          ),
         ],
       ),
     )
@@ -272,6 +280,7 @@ List<Widget> orderDetails(int index, BuildContext context) {
 }
 
 List<Widget> orderOptions(int index, BuildContext context) {
+  TextEditingController _textController = TextEditingController();
   CartModel cartModel = Get.put<CartModel>(CartModel());
   var product = cartModel.cartMap.keys.elementAt(index);
   return [
@@ -300,6 +309,102 @@ List<Widget> orderOptions(int index, BuildContext context) {
       onPressed: () {
         cartModel.checkoutHandler(product, context);
       },
+    ),
+    SizedBox(
+      width: MediaQuery.of(context).size.width / 20,
+    ),
+    Container(
+      //color: Colors.black12,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          IconButton(
+            color: Colors.white,
+            icon: Icon(
+              Icons.remove,
+              size: 20,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              if (cartModel.cartMap[product] > 1) {
+                cartModel.cartMap.update(product, (quantity) => quantity - 1);
+              }
+            },
+          ),
+          Obx(
+            () => InkWell(
+              onTap: () async {
+                num number = 0;
+                await PopupBox.showPopupBox(
+                  context: context,
+                  button: TextButton(
+                    style: TextButton.styleFrom(
+                      primary: Colors.transparent,
+                    ),
+                    child: Text(
+                      'Done',
+                      style: TextStyle(
+                        color: Colors.orange.shade300,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onPressed: () {
+                      if (number > 0) {
+                        cartModel.cartMap[product] = number;
+                      } else {
+                        return cartModel.cartMap[product];
+                      }
+                      Get.back();
+                    },
+                  ),
+                  willDisplayWidget: TextField(
+                    autofocus: true,
+                    controller: _textController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      hintText: 'Add a Number',
+                      border: InputBorder.none,
+                      filled: true,
+                      fillColor: Colors.black12,
+                    ),
+                    onChanged: (val) {
+                      number = num.parse(val);
+                    },
+                  ),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.orange[300],
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                padding: EdgeInsets.all(3),
+                child: Text(
+                  '${cartModel.cartMap[product]}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          IconButton(
+            highlightColor: Colors.orange[300],
+            splashColor: Colors.orange[300],
+            color: Colors.white,
+            icon: Icon(
+              Icons.add,
+              size: 20,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              cartModel.cartMap.update(product, (quantity) => quantity + 1);
+            },
+          ),
+        ],
+      ),
     ),
   ];
 }

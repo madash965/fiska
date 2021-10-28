@@ -1,16 +1,15 @@
 import 'package:badges/badges.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fiska/controllers/cartcontroller.dart';
+import 'package:fiska/controllers/productcontroller.dart';
+import 'package:fiska/models/product_detail.dart';
+import 'package:fiska/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:fiska/models/product.dart';
-import 'package:fiska/pages/categoryPage.dart';
-import 'package:fiska/pages/productPage.dart';
 import 'package:fiska/pages/profilePage.dart';
 import 'package:fiska/widgets/categoryItem.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 
 import 'SearchPage.dart';
@@ -22,7 +21,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  ProductController productController = Get.put(ProductController());
   int _page = 0;
+
   List bannerAdSlider = [
     "assets/banner1.jpg",
     "assets/banner2.jpg",
@@ -32,78 +33,6 @@ class _HomePageState extends State<HomePage> {
     "assets/banner6.jpg",
     "assets/banner7.jpg",
     "assets/banner8.jpg"
-  ];
-
-  List<Product> products = [
-    Product(
-      image: "assets/product1.jpg",
-      description: "This is dummy data for Fiska eCommerce application",
-      price: "900",
-      productName: "iPad mini",
-    ),
-    Product(
-      image: "assets/product2.jpg",
-      description: "This is dummy data for Fiska eCommerce application.",
-      price: "700",
-      productName: "iPad Pro",
-    ),
-    Product(
-      image: "assets/product3.jpg",
-      description: "This is dummy data for Fiska eCommerce application",
-      price: "800",
-      productName: "iPhone Pro Max",
-    ),
-    Product(
-      image: "assets/product4.jpg",
-      description: "This is dummy data for Fiska eCommerce application.",
-      price: "90",
-      productName: "Apple Watch Series 3",
-    ),
-    Product(
-      image: "assets/product5.jpg",
-      description: "This is dummy data for Fiska eCommerce application.",
-      price: "500",
-      productName: "Apple Watch Series 4",
-    ),
-    Product(
-      image: "assets/product6.jpg",
-      description: "This is dummy data for Fiska eCommerce application.",
-      price: "100",
-      productName: "Macbook Pro 16 inch",
-    ),
-    Product(
-      image: "assets/product7.jpg",
-      description: "This is dummy data for Fiska eCommerce application.",
-      price: "200",
-      productName: "Macbook Pro",
-    ),
-    Product(
-      image: "assets/product8.jpg",
-      description: "This is dummy data for Fiska eCommerce application",
-      price: "1000",
-      productName: "iMac 4k Retina",
-    ),
-    Product(
-      image: "assets/product9.jpg",
-      description: "This is dummy data for Fiska eCommerce application",
-      price: "150",
-      productName: "T-Shirts",
-    ),
-    Product(
-        image: "assets/product10.jpg",
-        description: "This is dummy data for Fiska eCommerce application",
-        price: "100",
-        productName: "Ethnic Wear - Dress"),
-    Product(
-        image: "assets/product11.jpg",
-        description: "This is dummy data for Fiska eCommerce application.",
-        price: "100",
-        productName: "Dress"),
-    Product(
-        image: "assets/product12.jpg",
-        description: "This is dummy data for Fiska eCommerce application.",
-        price: "100",
-        productName: "T-Shirt"),
   ];
 
   @override
@@ -137,15 +66,10 @@ class _HomePageState extends State<HomePage> {
         iconTheme: IconThemeData(color: Colors.orange),
         actions: <Widget>[
           IconButton(
-            padding: EdgeInsets.symmetric(horizontal: 5),
-            onPressed: () {
-              showSearch(context: context, delegate: ProductSearchDelegate());
-            },
-            icon: Icon(
-              EvaIcons.search,
-              size: 26,
-            ),
-          ),
+              icon: Icon(Icons.search),
+              onPressed: () async {
+                showSearch(context: context, delegate: ProductSearchDelegate());
+              }),
           Obx(
             () => Padding(
               padding: EdgeInsets.only(right: 15),
@@ -257,10 +181,11 @@ class _HomePageState extends State<HomePage> {
       //   ),
       // ),
       body: [
-        Container(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        SafeArea(
+          child: Container(
+            color: Colors.grey[100],
+            child: ListView(
+              //crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -399,89 +324,42 @@ class _HomePageState extends State<HomePage> {
                   height: 8,
                 ),
 
-                GridView.count(
-                  padding: EdgeInsets.all(5.0),
-                  physics: ClampingScrollPhysics(),
-                  crossAxisCount: 2,
-                  shrinkWrap: true,
-                  childAspectRatio: 1 / 1.0,
-                  children: products.map((product) {
-                    return Card(
-                      elevation: 1.5,
-                      child: Stack(
-                        children: <Widget>[
-                          Container(
-                            child: Column(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Hero(
-                                    tag: product.image,
-                                    child: AspectRatio(
-                                      aspectRatio: 1 / 1,
-                                      child: Image(
-                                        image: AssetImage(product.image),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Divider(
-                                  height: 3.0,
-                                ),
-                                Text(
-                                  product.productName,
-                                ),
-                                Text(
-                                  "\$${product.price}",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.amber[900],
-                                  ),
-                                ),
-                              ],
-                            ),
+                Obx(
+                  () {
+                    try {
+                      if (productController.isLoading.value) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.orange[300],
                           ),
-                          Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ProductPage(
-                                        product: product,
-                                      ),
-                                    ));
-                              },
-                            ),
+                        );
+                      } else {
+                        return StaggeredGridView.countBuilder(
+                          itemCount: productController.productList.length,
+                          crossAxisCount: 2,
+                          staggeredTileBuilder: (int index) => index % 2 == 0
+                              ? StaggeredTile.count(1, 1.5)
+                              : StaggeredTile.count(1, 1),
+                          itemBuilder: (context, index) => ProductCard(
+                            product: productController.productList[index],
                           ),
-                          Positioned(
-                            top: -2.0,
-                            right: -3.0,
-                            child: Card(
-                              color: Colors.amber[200],
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4.0)),
-                              child: Padding(
-                                padding: EdgeInsets.all(1.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Text(
-                                      '-70%',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
+                          padding: EdgeInsets.all(4.0),
+                          physics: ClampingScrollPhysics(),
+                          shrinkWrap: true,
+                        );
+                      }
+                    } catch (e) {
+                      return Center(
+                        child: Text(
+                          "Yellow",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 30,
                           ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
+                        ),
+                      );
+                    }
+                  },
                 ),
 
                 SizedBox(
@@ -499,66 +377,40 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        CategoryPage(),
         CartPage(),
         ProfilePage(),
       ].elementAt(_page),
-      bottomNavigationBar: CurvedNavigationBar(
-        index: 0,
-        height: MediaQuery.of(context).size.height / 15,
-        items: <Widget>[
-          Icon(
-            Icons.home,
-            size: 24,
-            color: Colors.white,
+// bottom Nav
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _page,
+        backgroundColor: Colors.white,
+        selectedItemColor: Colors.orange,
+        unselectedItemColor: Colors.grey,
+        iconSize: 25,
+        selectedFontSize: 15,
+        unselectedFontSize: 10,
+        showUnselectedLabels: false,
+        // selectedLabelStyle: textTheme.caption,
+        // unselectedLabelStyle: textTheme.caption,
+        onTap: (int index) {
+          // Respond to item press.
+          setState(() => _page = index);
+        },
+        items: [
+          BottomNavigationBarItem(
+            label: 'Home',
+            icon: Icon(Icons.home),
           ),
-          Icon(
-            Icons.list,
-            size: 24,
-            color: Colors.white,
+          BottomNavigationBarItem(
+            label: 'Cart',
+            icon: Icon(Icons.shopping_cart),
           ),
-          Obx(
-            () => cartModel.cartMap.length.isEqual(0)
-                ? Icon(
-                    Icons.shopping_cart,
-                    size: 24,
-                    color: Colors.white,
-                  )
-                : Badge(
-                    padding: EdgeInsets.all(3),
-                    shape: BadgeShape.circle,
-                    borderRadius: BorderRadius.circular(3),
-                    badgeContent: Text(
-                      '${cartModel.cartMap.length}',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    position: BadgePosition.topEnd(top: -10, end: -15),
-                    animationDuration: Duration(milliseconds: 300),
-                    animationType: BadgeAnimationType.slide,
-                    child: Icon(
-                      Icons.shopping_cart,
-                      size: 24,
-                      color: Colors.white,
-                    ),
-                  ),
-          ),
-          Icon(
-            Icons.person,
-            size: 24,
-            color: Colors.white,
+          BottomNavigationBarItem(
+            label: 'Profile',
+            icon: Icon(Icons.person),
           ),
         ],
-        color: Colors.orange,
-        buttonBackgroundColor: Colors.orange,
-        backgroundColor: Colors.white,
-        animationCurve: Curves.easeInOut,
-        animationDuration: Duration(milliseconds: 600),
-        onTap: (index) {
-          setState(() {
-            _page = index;
-          });
-        },
       ),
     );
   }

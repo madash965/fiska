@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MyFormField extends StatelessWidget {
+  final bool readOnly;
   final TextInputType keyboardType;
   final Function onChanged;
   final Function onSubmitted;
@@ -16,10 +17,11 @@ class MyFormField extends StatelessWidget {
   MyFormField({
     Key key,
     this.maxItems,
+    this.readOnly = false,
     this.initialValue,
     this.keyboardType,
     this.maxLines,
-    this.obscureText,
+    this.obscureText = false,
     this.onChanged,
     this.onSubmitted,
     this.validator,
@@ -41,6 +43,7 @@ class MyFormField extends StatelessWidget {
       controller: controller,
       maxLength: maxItems,
       onSaved: onSaved,
+      readOnly: readOnly,
     );
   }
 }

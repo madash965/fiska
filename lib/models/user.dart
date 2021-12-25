@@ -104,6 +104,29 @@ class UserLogin {
     @required this.userType,
   });
 
+<<<<<<< HEAD
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      email: json["email"],
+      password: json["password"],
+      address: json["address"],
+      pNumber: json["pNumber"],
+      name: json["name"],
+    );
+  }
+
+  User.basic(String s, String t, available);
+
+  Map<String, dynamic> toJson() {
+    return {
+      "name": name,
+      "password": password,
+      "email": email,
+      "address": address,
+      "pNumber": pNumber,
+    };
+  }
+=======
   factory UserLogin.fromJson(Map<String, dynamic> json) => UserLogin(
         username: json["username"],
         password: json["password"],
@@ -134,4 +157,5 @@ class ChangePassword {
   final String newPasword;
 
   ChangePassword({this.oldPassword, this.newPasword});
+>>>>>>> 73272c3244dc7be6b3f2d4dc287ac0c4af210a41
 }

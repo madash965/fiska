@@ -380,6 +380,8 @@ class ProductData {
         productUrl: json["productUrl"],
       );
 
+  get obs => null;
+
   Map<String, dynamic> toJson() => {
         "availableInLocation": availableInLocation,
         "is_in_any_wishlist": isInAnyWishlist,
@@ -449,6 +451,8 @@ class ProductData {
         "youtubeUrlThumbnail": youtubeUrlThumbnail,
         "productUrl": productUrl,
       };
+
+  fetchProductsDetails({String query}) {}
 }
 
 class MoreSellersArr {

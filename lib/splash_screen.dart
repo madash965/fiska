@@ -8,10 +8,10 @@ class SplashScreen extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: AnimatedSplashScreen(
-          duration: 2000,
+          duration: 1500,
           curve: Curves.bounceInOut,
           backgroundColor: Colors.white,
-          splash: 'assets/logo.png',
+          splash: 'assets/fulllogo.png',
           nextScreen: HomePage(),
           splashIconSize: 160.0,
           splashTransition: SplashTransition.fadeTransition,

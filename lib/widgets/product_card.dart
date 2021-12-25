@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fiska/controllers/productcontroller.dart';
 import 'package:fiska/models/product.dart';
 import 'package:fiska/pages/productPage.dart';
@@ -18,73 +19,113 @@ class ProductCard extends StatelessWidget {
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
-            Radius.circular(15),
+            Radius.circular(6),
           ),
         ),
-        elevation: 2,
+        elevation: 3,
         child: Stack(
           children: <Widget>[
             Container(
               child: Column(
-                mainAxisSize: MainAxisSize.min,
+                mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   Expanded(
                     child: Hero(
                       tag: product.productImageUrl,
-                      child: AspectRatio(
-                        aspectRatio: 1 / 1,
-                        child: Image(
-                          fit: BoxFit.contain,
-                          image: NetworkImage(product.productImageUrl),
-                        ),
+                      child: CachedNetworkImage(
+                        placeholder: (context, url) =>
+                            Center(child: placeholderImage()),
+                        imageUrl: product.productImageUrl,
+                        height: double.infinity,
+                        width: 200.0,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
-                  Divider(
-                    height: 3.0,
-                  ),
+                  SizedBox(height: 6),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(6.0),
                     child: Text(
                       product.productName,
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: Colors.black,
+                        color: Colors.grey[700],
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Text(
-                      "\N\G\N${product.theprice}",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.amber[900],
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12.0),
+                        child: Row(
+                          children: [
+                            Text(
+                              "\N\G\N ",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black,
+                              ),
+                            ),
+                            Text(
+                              "${product.theprice}",
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
+                  SizedBox(height: 2.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        '1200 ' ' Sold',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey[700],
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.star,
+                            color: Colors.orangeAccent,
+                            size: 20.0,
+                          ),
+                          Text('4.4k'),
+                        ],
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 15),
                 ],
               ),
             ),
             Positioned(
-              top: -2.0,
-              right: -3.0,
+              top: -4.0,
+              right: -4.0,
               child: Card(
-                color: Colors.amber[200],
+                color: Colors.red[600],
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(4.0)),
                 child: Padding(
-                  padding: EdgeInsets.all(1.0),
+                  padding: EdgeInsets.symmetric(horizontal: 3.0, vertical: 3.0),
                   child: Row(
                     children: <Widget>[
                       Text(
                         '-70%',
                         style: TextStyle(
-                            color: Colors.black,
+                            color: Colors.white,
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold),
                       )
@@ -98,4 +139,30 @@ class ProductCard extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget placeholderImage() {
+  final image = AssetImage('assets/grayscale_transparent.png');
+  return Container(
+    height: 60,
+    width: 60,
+    padding: const EdgeInsets.all(3.0),
+    decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+    child: ClipOval(
+      child: Material(
+        color: Colors.transparent,
+        child: Ink.image(
+          image: image,
+          fit: BoxFit.cover,
+          width: 60,
+          height: 60,
+          child: InkWell(
+            onTap: () async {
+              //Get.to(() => ShopPage());
+            },
+          ),
+        ),
+      ),
+    ),
+  );
 }

@@ -40,10 +40,22 @@ dependencies:
   material_dialogs: ^1.1.0
   popup_box: ^0.1.0
   progress_stepper: ^0.1.0
+<<<<<<< HEAD
   skeleton_text: ^3.0.0
+=======
+>>>>>>> 562e4a3351b1aff8e52e4b0ffeaa2501c842037e
   validated: ^2.0.0
+  shimmer: ^2.0.0
+  cached_network_image: ^3.0.0
+  get_storage: ^2.0.2
+  liquid_pull_to_refresh: ^3.0.0
+  floating_bottom_navigation_bar: ^1.5.2
+  datetime_picker_formfield: ^2.0.0
+  floating_navigation_bar: ^0.0.5
+  smooth_star_rating: ^1.1.1
+  percent_indicator: ^2.1.9
 
-  
+
 
 dev_dependencies:
   flutter_test:

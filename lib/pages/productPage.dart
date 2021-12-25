@@ -2,7 +2,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fiska/controllers/cartcontroller.dart';
 import 'package:fiska/controllers/productcontroller.dart';
 import 'package:fiska/models/product.dart';
-import 'package:fiska/models/product_detail.dart';
+
 import 'package:fiska/pages/cartPage.dart';
 import 'package:fiska/pages/checkout_page.dart';
 import 'package:flushbar/flushbar.dart';

@@ -21,23 +21,29 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  flutter:
-    sdk: flutter
   animated_splash_screen: ^1.0.1+2
   badges: ^2.0.1
   carousel_slider: ^4.0.0
   convex_bottom_bar: ^3.0.0
   cupertino_icons: ^1.0.3
   curved_navigation_bar: ^1.0.1
+  dio: ^4.0.0
   eva_icons_flutter: ^3.0.0
+  flash: ^2.0.1
   flushbar: ^1.10.4
+  flutter:
+    sdk: flutter
   flutter_rating_bar: ^4.0.0
+  flutter_staggered_grid_view: ^0.4.0
   get: ^4.1.4
   http: ^0.13.3
   material_dialogs: ^1.1.0
   popup_box: ^0.1.0
   progress_stepper: ^0.1.0
-  validated: ^1.0.3
+  skeleton_text: ^3.0.0
+  validated: ^2.0.0
+
+  
 
 dev_dependencies:
   flutter_test:

@@ -8,11 +8,18 @@ import 'package:fiska/models/user.dart';
 import 'package:fiska/services/exception_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:fiska/models/product.dart';
-import 'package:dio/dio.dart';
 
 class ApiService {
   static const int TIME_OUT_DURATION = 30;
   static var client = http.Client();
+<<<<<<< HEAD
+  static var baseUrl = "https://fiskah.com/app-api/2.3/";
+  static Map<String, String> headers = {
+    "Content-Type": "applicaton/json",
+  };
+  static Future<List<ProductElement>> fetchProducts(
+      {String products, String query}) async {
+=======
   static var baseUrl = "https://fiskah.com/app-api/v2.3/";
   static Map<String, String> headers = {};
 
@@ -34,6 +41,7 @@ class ApiService {
 
   static Future<List<ProductElement>> fetchProducts() async {
     var uri = Uri.parse("$baseUrl" + "products/");
+>>>>>>> 73272c3244dc7be6b3f2d4dc287ac0c4af210a41
     try {
       http.Response response = await http
           .get(
@@ -55,8 +63,13 @@ class ApiService {
     }
   }
 
+<<<<<<< HEAD
+  static Future<ProductData> fetchProductsDetails(int id,
+      {String query}) async {
+=======
   static Future<ProductData> fetchProductsDetails(int id) async {
     var uri = Uri.parse("$baseUrl" + 'products/view/$id/');
+>>>>>>> 73272c3244dc7be6b3f2d4dc287ac0c4af210a41
     try {
       http.Response response =
           await http.post(uri).timeout(Duration(seconds: TIME_OUT_DURATION));

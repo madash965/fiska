@@ -1,6 +1,8 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fiska/controllers/cartcontroller.dart';
+import 'package:fiska/controllers/productcontroller.dart';
 import 'package:fiska/models/product.dart';
+import 'package:fiska/models/product_detail.dart';
 import 'package:fiska/pages/cartPage.dart';
 import 'package:fiska/pages/checkout_page.dart';
 import 'package:flushbar/flushbar.dart';
@@ -11,13 +13,16 @@ import 'package:get/get.dart';
 import 'SearchPage.dart';
 
 class ProductPage extends StatelessWidget {
-  final Product product;
-
+  final ProductElement product;
+  //final ProductData productData;
   ProductPage({this.product});
 
   @override
   Widget build(BuildContext context) {
-    CartModel _cartModel = Get.put(CartModel());
+    ProductController _productController = Get.find<ProductController>();
+    CartController _cartController = Get.find<CartController>();
+    _productController.fetchProductDetails(num.parse(product.selprodId));
+    //print("productData: ${productData.productName}");
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -65,136 +70,167 @@ class ProductPage extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Hero(
-                tag: product.image,
-                child: AspectRatio(
-                  aspectRatio: 1 / 1,
-                  child: Image(
-                    image: AssetImage(product.image),
-                  ),
-                ),
+      body: SafeArea(
+        child: Obx(() {
+          var productData = _productController.productDetail.value;
+          if (productData.productName != product.productName) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: Colors.orange[300],
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 8,
-                ),
-                child: ListTile(
-                  title: Text('Seller'),
-                  onTap: () {},
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 1,
-                ),
-                child: Text(
-                  product.productName,
-                  style: TextStyle(
-                    fontSize: 24,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 5,
-                ),
-                child: Text(
-                  "\$${product.price}",
-                  style: TextStyle(
-                    fontSize: 50,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.amber,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 5,
-                ),
-                child: Text(
-                  'Coupons',
-                  style: TextStyle(
-                    fontSize: 24,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 0,
-                ),
-                child: Text(
-                  product.description,
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 10,
-                ),
-                child: Row(
-                  children: [
-                    Text('Colors'),
-                    //The code for the variants should be written here
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 10,
-                ),
-                child: Text(
-                  'Reviews',
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-              Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 0,
-                  ),
-                  child: RatingBar(
-                    initialRating: 3,
-                    minRating: 1,
-                    direction: Axis.horizontal,
-                    allowHalfRating: true,
-                    itemCount: 5,
-                    itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                    ratingWidget: RatingWidget(
-                      empty: Icon(
-                        Icons.star,
-                        color: Colors.grey,
+            );
+          }
+          return Container(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Hero(
+                    tag: product.productImageUrl,
+                    child: AspectRatio(
+                      aspectRatio: 1 / 1,
+                      child: Image(
+                        fit: BoxFit.contain,
+                        image: NetworkImage(product.productImageUrl),
                       ),
-                      half: Icon(
-                        Icons.star,
-                        color: Colors.grey,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 8,
+                    ),
+                    child: ListTile(
+                      title: Text(
+                        '${productData.productName}',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
                       ),
-                      full: Icon(
-                        Icons.star,
+                      onTap: () {},
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 1,
+                    ),
+                    child: Text(
+                      "${productData.shopName}",
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 1,
+                    ),
+                    child: Text(
+                      "${productData.productDescription}",
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
+                    child: Text(
+                      "\N\G\N${productData.theprice}",
+                      style: TextStyle(
+                        fontSize: 50,
+                        fontWeight: FontWeight.w700,
                         color: Colors.amber,
                       ),
                     ),
-                    onRatingUpdate: (rating) {
-                      print(rating);
-                    },
-                  )),
-            ],
-          ),
-        ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
+                    child: Text(
+                      'Coupons',
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 0,
+                    ),
+                    child: Text(
+                      "${productData.brandName}",
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10,
+                    ),
+                    child: Row(
+                      children: [
+                        Text('Colors'),
+                        //The code for the variants should be written here
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10,
+                    ),
+                    child: Text(
+                      '${productData.totReviews} Reviews',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 0,
+                    ),
+                    child: RatingBar(
+                      initialRating: num.parse("${productData.prodRating}"),
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                      ratingWidget: RatingWidget(
+                        empty: Icon(
+                          Icons.star,
+                          color: Colors.grey,
+                        ),
+                        half: Icon(
+                          Icons.star,
+                          color: Colors.grey,
+                        ),
+                        full: Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                      ),
+                      onRatingUpdate: (rating) {
+                        print(rating);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }),
       ),
       bottomNavigationBar: Container(
         child: Row(
@@ -213,7 +249,7 @@ class ProductPage extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  _cartModel.inCart(product, context);
+                  _cartController.addToCart("${product.selprodId}");
                 },
               ),
             ),
@@ -240,7 +276,7 @@ class ProductPage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (_) => CheckoutPage(
-                        price: num.parse(product.price),
+                        price: num.parse(product.theprice),
                       ),
                     ),
                   );

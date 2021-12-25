@@ -1,9 +1,11 @@
 import 'package:badges/badges.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:fiska/controllers/authController.dart';
 import 'package:fiska/controllers/cartcontroller.dart';
 import 'package:fiska/controllers/productcontroller.dart';
 import 'package:fiska/models/product_detail.dart';
+import 'package:fiska/pages/profile_related/authentication.dart';
 import 'package:fiska/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,6 +23,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  AuthController authController = Get.put<AuthController>(AuthController());
   ProductController productController = Get.put(ProductController());
   int _page = 0;
 
@@ -44,7 +47,7 @@ class _HomePageState extends State<HomePage> {
       systemNavigationBarColor: Colors.white,
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
-    CartModel cartModel = Get.put<CartModel>(CartModel());
+    CartController cartModel = Get.put<CartController>(CartController());
 
     return Scaffold(
       appBar: AppBar(
@@ -378,7 +381,9 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         CartPage(),
-        ProfilePage(),
+        !authController.isAuthenticated.value
+            ? Authentication()
+            : ProfilePage(),
       ].elementAt(_page),
 // bottom Nav
       bottomNavigationBar: BottomNavigationBar(
